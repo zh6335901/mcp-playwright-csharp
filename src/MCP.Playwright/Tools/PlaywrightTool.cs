@@ -15,7 +15,11 @@ public static class PlaywrightTool
         [Description("Navigation timeout in milliseconds")] int timeout = 20000)
     {
         var page = await BrowserProxy.EnsurePage();
-        await page.GotoAsync(url, new PageGotoOptions { Timeout = timeout, WaitUntil = WaitUntilState.Load });
+        await page.GotoAsync(url, new PageGotoOptions
+        {
+            Timeout = timeout,
+            WaitUntil = WaitUntilState.Load 
+        });
 
         return "Navigated to " + url;
     }
@@ -160,7 +164,7 @@ public static class BrowserProxy
         if (_page is null)
         {
             _playwright = await PW.CreateAsync();
-            _browser = await _playwright.Chromium.LaunchAsync();
+            _browser = await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions{ Headless = false });
             _page = await _browser.NewPageAsync();
         }
 

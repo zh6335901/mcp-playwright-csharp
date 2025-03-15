@@ -1,5 +1,4 @@
-﻿
-using McpDotNet;
+﻿using McpDotNet;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
