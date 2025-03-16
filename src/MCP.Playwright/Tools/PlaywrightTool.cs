@@ -151,6 +151,31 @@ public static class PlaywrightTool
     {
         return await BrowserProxy.Close();
     }
+
+    [McpTool(PlaywrightToolNames.GetText)]
+    [Description("Get the text content of an element")]
+    public static async Task<string> GetText(
+        [Description("CSS selector for the element to get text from")] string selector)
+    {
+        var page = await BrowserProxy.EnsurePage();
+        await page.WaitForSelectorAsync(selector);  
+        var text = await page.TextContentAsync(selector);
+
+        return "Text content of " + selector + ": " + text;
+    }
+
+    [McpTool(PlaywrightToolNames.GetAttribute)]
+    [Description("Get the value of an attribute of an element")]
+    public static async Task<string> GetAttribute(
+        [Description("CSS selector for the element to get attribute from")] string selector,
+        [Description("Name of the attribute to get")] string attributeName)
+    {
+        var page = await BrowserProxy.EnsurePage();
+        await page.WaitForSelectorAsync(selector);
+        var attribute = await page.GetAttributeAsync(selector, attributeName);
+
+        return "Attribute value of " + selector + " with name " + attributeName + ": " + attribute;
+    }
 }
 
 public static class BrowserProxy
@@ -207,4 +232,6 @@ public static class PlaywrightToolNames
     public const string Hover = "playwright_hover";
     public const string Evaluate = "playwright_evaluate";
     public const string Close = "playwright_close";
+    public const string GetText = "playwright_get_text";
+    public const string GetAttribute = "playwright_get_attribute";
 }
